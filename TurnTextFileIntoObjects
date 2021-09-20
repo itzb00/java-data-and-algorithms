@@ -1,0 +1,45 @@
+public static void getRoomDataFromFile() throws IOException {
+        rooms = new ArrayList<>();
+        List<String> lines = FileUtils.readLines(new File("Rooms.txt"), "UTF-8");
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i);
+            String[] words = line.split(",");
+            Room room = new Room();
+            int j = 0;
+            room.setRoomId(Integer.parseInt(words[j]));
+            j++;
+            room.setRoomName(words[j]);
+            j++;
+            String str = words[j];
+            ArrayList<String> descriptions = new ArrayList<>();
+            while(str.compareTo("---") != 0) {
+                descriptions.add(str);
+                j++;
+                str = words[j];
+            }
+            j++;
+            room.setDescriptions(descriptions);
+            room.setWasVisited(Boolean.parseBoolean(words[j]));
+            j++;
+            //System.out.println(room);
+            HashMap<String,Integer> navigation = new HashMap<>();
+            navigation.put("north",Integer.parseInt(words[j]));
+            j++;
+            navigation.put("east",Integer.parseInt(words[j]));
+            j++;
+            navigation.put("south",Integer.parseInt(words[j]));
+            j++;
+            navigation.put("west",Integer.parseInt(words[j]));
+            room.setNavTable(navigation);
+            rooms.add(room);
+        }
+    }
+    //Rooms text file
+    /**** 1,Entrance Hall,A towering castle appears as you step into the Entry Hall.,Armored Knights decorate the entire room. You see a few doors.,---,false,4,3,0,2
+2,Potion Room,Bubbling gas makes it hard to see very far.,You stumble through some green mist.,---,false,5,1,0,0
+3,Dungeon,Cold and leaky and full of rats.,You could swear one of the skeletons turned its head toward you.,---,false,6,0,0,1
+4,Grand Balcony,Through stained glass views and freezing air,you can see a huge forest below.,---,false,7,6,1,5
+5,Dining Hall,Looks like no food was served here for a while.,Cups are everywhere...some poured out.,---,false,0,4,2,0
+6,Observatory,Peering through a nearby telescope,you can see bright wonderful stars.,---,false,0,0,3,4
+7,Boss Room,A bat swoops down upon you and turns into a man.,He runs at you. The fight is on!,---,false,0,0,4,0
+***/
